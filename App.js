@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BackHandler, Alert, View, SafeAreaView, StyleSheet, ActivityIndicator } from "react-native";
 import { WebView, WebViewNavigation  } from 'react-native-webview';
-import AsyncStorageLib from '@react-native-async-storage/async-storage'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import {Platform, DevSettings} from 'react-native';
 import { fcmService } from './src/notificationService/FCMService'
 import { localNotificationService } from './src/notificationService/LocalNotificationService'
@@ -75,12 +75,12 @@ const App = () => {
 
   }, [])
 
-  const onNavigationStateChange = (navigationState: WebViewNavigation) => {
+  const onNavigationStateChange = (navigationState) => {
     const url = navigationState.url;
   
     // parseURLParams is a pseudo function.
     // Make sure to write your own function or install a package
-    AsyncStorageLib.setItem("url", url)
+    AsyncStorage.setItem("url", url)
 
     CookieManager.get(url)
     .then((cookies) => {
@@ -88,12 +88,12 @@ const App = () => {
     });
   };
 
-  AsyncStorageLib.getItem("url")
+  AsyncStorage.getItem("url")
   .then((value) => {
     setCallURL(value);
   })
 
-  AsyncStorageLib.getItem("url")
+  AsyncStorage.getItem("url")
   .then((value) => {
     setNewURL(value);
   })
@@ -103,6 +103,7 @@ const App = () => {
       .getToken()
       .then(token => {
         setFcmToken(token)
+        
       });
   }, [])
 

@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useContext } from "react";
-import { BackHandler, Alert, View, SafeAreaView, StyleSheet, ActivityIndicator} from "react-native";
+import { BackHandler, Alert, View, SafeAreaView, StyleSheet, ActivityIndicator,Text, TouchableOpacity} from "react-native";
 import { WebView, WebViewNavigation  } from 'react-native-webview';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { AuthContext } from '../navigation/AuthProvider'
+import { FloatingAction } from "react-native-floating-action";
 
 const MessagingScreen = () => {
 
@@ -10,7 +11,7 @@ const MessagingScreen = () => {
   const [Phone, setPhone] = useState('')
   const [PassWord,setPassWord] = useState('')
 
-  const onNavigationStateChange = (navigationState: WebViewNavigation) => {
+  const onNavigationStateChange = (navigationState) => {
     const url = navigationState.url;
   
     // parseURLParams is a pseudo function.
@@ -42,6 +43,11 @@ const MessagingScreen = () => {
   
   return(
     <SafeAreaView style={styles.container}>
+      <View style ={styles.floatBtn}>
+        <TouchableOpacity style ={styles.btnCall}>
+        <Text style={styles.textBtn}>+</Text>
+        </TouchableOpacity>
+      </View>
         <WebView 
           styles={{ flex: 1 }}
           source={{ 
@@ -59,6 +65,31 @@ export default MessagingScreen;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+  
+    
+  },
+  floatBtn: {
+     
+      backgroundColor:'red',
+  },
+  btnCall:{
+    width: 60,  
+    height: 60,   
+    borderRadius: 30,            
+    backgroundColor: '#ee6e73',                                    
+    //position:"absolute",                            
+    bottom: 10,                                                    
+    right: 10, 
+      
   }
+  ,
+  textBtn:{
+    alignItems: "center",
+    justifyContent: "center",
+    textAlign:"center",
+    fontSize:30,
+    paddingTop:10,
+  
+  },
 })
